@@ -1,0 +1,13 @@
+﻿@model DdConstruction.Models.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<br /><br />
+
+<ngcart-cart template-url="@Url.Content("~/template/ngCart/cart.html")"></ngcart-cart>
+
+<custom-checkout></custom-checkout>
+
+<ngcart-checkout service="http" settings="{url:'@Url.Content("~/Home/CheckoutPost")'}" template-url="@Url.Content("~/template/ngCart/checkout.html")"></ngcart-checkout>

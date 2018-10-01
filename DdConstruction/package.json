@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@types/angular": "1.6.51",
+    "angular": "1.6.9",
+    "ngCart": "^1.0.0"
+  }
+}
