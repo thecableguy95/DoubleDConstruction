@@ -4,7 +4,7 @@
     const CustomCheckoutComponent: ng.IComponentOptions = {
         bindings: {
         },
-        templateUrl: ['paths', (paths: IPaths): string => `${paths.appBase}custom-checkout/custom-checkout.html`],
+        templateUrl: ['paths', (paths: IPaths): string => `${paths.AppBase}custom-checkout/custom-checkout.html`],
         controller: 'CustomCheckoutController'
     }
 
@@ -26,11 +26,20 @@
         }
 
         public $onInit = (): void => {
+            this.ngCart.setTaxRate(7.5);
             this.cartTotal = "999";
         }
 
         public GetCartTotal = (): string => {
             return this.cartTotal;
+        }
+
+        public GetCartItems = (): any[] => {
+            return this.ngCart.getItems();
+        }
+
+        public IsCartEmpty = (): boolean => {
+            return this.ngCart.getTotalItems() === 0;
         }
     }
 

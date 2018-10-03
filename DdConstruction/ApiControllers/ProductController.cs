@@ -2,6 +2,7 @@
 using System.Linq;
 using DalContext.Models;
 using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 
 namespace DdConstruction.ApiControllers
 {
@@ -14,6 +15,8 @@ namespace DdConstruction.ApiControllers
         public ProductController(DoubleDConstructionContext context) => this.context = context;
 
         [HttpGet]
+        [SwaggerOperation(nameof(GetAll))]
+        [ProducesResponseType(typeof(List<Product>), 200)]
         public ActionResult<List<Product>> GetAll()
         {
             return context.Product.ToList();

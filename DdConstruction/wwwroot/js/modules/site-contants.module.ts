@@ -2,7 +2,7 @@
     'use strict'
 
     export interface IPaths {
-        readonly appBase: string;
+        readonly AppBase: string;
     }
 
     const siteConstants = angular.module('siteConstants', []);
@@ -10,7 +10,7 @@
     let siteRoot = '/';
 
     const paths: IPaths = {
-        appBase: `${siteRoot}appBase/`
+        AppBase: `${siteRoot}AppBase/`
     };
 
     siteConstants.constant('paths', paths);

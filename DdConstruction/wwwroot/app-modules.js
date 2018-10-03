@@ -9,7 +9,7 @@ var DdConstruction;
     var siteConstants = angular.module('siteConstants', []);
     var siteRoot = '/';
     var paths = {
-        appBase: siteRoot + "appBase/"
+        AppBase: siteRoot + "AppBase/"
     };
     siteConstants.constant('paths', paths);
 })(DdConstruction || (DdConstruction = {}));
