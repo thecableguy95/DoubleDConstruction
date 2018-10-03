@@ -1,3 +1,3 @@
 ﻿namespace DdConstruction {
-    angular.module('angularApp', ['ngCart']);
+    angular.module('angularApp', ['ngCart', 'siteConstants']);
 }

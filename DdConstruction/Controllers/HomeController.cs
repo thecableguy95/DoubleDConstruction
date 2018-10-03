@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using DdConstruction.Models;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace DdConstruction.Controllers
 {
@@ -33,11 +34,23 @@ namespace DdConstruction.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckoutPost(string data)
+        public IActionResult CheckoutPost(string stripeToken)
         {
-            return RedirectToAction("Payment");
+            // Set your secret key: remember to change this to your live secret key in production
+            // See your keys here: https://dashboard.stripe.com/account/apikeys
+            StripeConfiguration.SetApiKey("sk_test_47M1I8EA24tScfkSjYCC7Lj0");
 
-            //return View(new CheckoutPost());
+            var options = new StripeChargeCreateOptions
+            {
+                Amount = 999,
+                Currency = "usd",
+                Description = "Example charge",
+                SourceTokenOrExistingSourceId = stripeToken,
+            };
+            var service = new StripeChargeService();
+            StripeCharge charge = service.Create(options);
+
+            return RedirectToAction("Payment");
         }
 
         public IActionResult Payment()
