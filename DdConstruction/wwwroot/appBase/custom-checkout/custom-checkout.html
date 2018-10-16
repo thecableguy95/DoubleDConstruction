@@ -1,11 +1,9 @@
 ﻿<div data-ng-if="!$ctrl.IsCartEmpty()">
     <form action="CheckoutPost" method="POST">
-        <div data-ng-repeat="cartItem in $ctrl.GetCartItems()">
-            <p>{{cartItem.getId()}}</p>
-        </div>
+        <p>{{$ctrl.GetCartTotal()}}</p>
         <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                 data-key="pk_test_YArjCbIuqCA8CPSt5NyUJprp"
-                data-amount="$ctrl.GetCartTotal()"
+                data-amount="{{$ctrl.GetCartTotal()}}"
                 data-name="doubledtest.azurewebsites.net"
                 data-description="Example charge"
                 data-image="https://stripe.com/img/documentation/checkout/marketplace.png"

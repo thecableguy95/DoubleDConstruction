@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\AppBase\api\DdConstruction.client.ts" />
+    <Content Remove="wwwroot\AppBase\product-catalog\product-catalog.ts" />
     <Content Remove="wwwroot\js\application.module.ts" />
     <Content Remove="wwwroot\js\custom-checkout.ts" />
     <Content Remove="wwwroot\js\site-contants.module.ts" />
@@ -36,6 +37,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\AppBase\custom-checkout\custom-checkout.ts" />
+    <TypeScriptCompile Include="wwwroot\AppBase\product-catalog\product-catalog.ts" />
     <TypeScriptCompile Include="wwwroot\js\modules\application.module.ts" />
     <TypeScriptCompile Include="wwwroot\js\modules\site-contants.module.ts" />
   </ItemGroup>

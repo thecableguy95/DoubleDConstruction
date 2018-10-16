@@ -6,14 +6,13 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-module angularApp {
 namespace DdConstruction.Client {
 
-export interface IDdConstruction {
-    getAll(): ng.IPromise<Product[] | null>;
+export interface IDdConstructionClient {
+    getAllProducts(): ng.IPromise<Product[] | null>;
 }
 
-export class DdConstruction implements IDdConstruction {
+export class DdConstructionClient implements IDdConstructionClient {
     private baseUrl: string | undefined = undefined; 
     private http: ng.IHttpService; 
     private q: ng.IQService; 
@@ -22,10 +21,10 @@ export class DdConstruction implements IDdConstruction {
     constructor($http: ng.IHttpService, $q: ng.IQService, baseUrl?: string) {
         this.http = $http;
         this.q = $q;
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:49848";
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:49847";
     }
 
-    getAll(): ng.IPromise<Product[] | null> {
+    getAllProducts(): ng.IPromise<Product[] | null> {
         let url_ = this.baseUrl + "/api/Product";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -40,15 +39,15 @@ export class DdConstruction implements IDdConstruction {
         };
 
         return this.http(options_).then((_response) => {
-            return this.processGetAll(_response);
+            return this.processGetAllProducts(_response);
         }, (_response) => {
             if (_response.status)
-                return this.processGetAll(_response);
+                return this.processGetAllProducts(_response);
             throw _response;
         });
     }
 
-    protected processGetAll(response: any): ng.IPromise<Product[] | null> {
+    protected processGetAllProducts(response: any): ng.IPromise<Product[] | null> {
         const status = response.status; 
 
         if (status === 200) {
@@ -322,22 +321,12 @@ function blobToText(blob: Blob, q: ng.IQService): ng.IPromise<string> {
     });
 }
 
-// TODO remove this hack once NSwag has templates we can change
-blobToText(null, <ng.IQService>function(all: any){});
-
 // build angular registrations for the client(s)
-let clientClasses = {'DdConstruction': DdConstruction};
+let clientClasses = {'DdConstructionClient': DdConstructionClient};
 
 for (let clientClass in clientClasses) {
     if (clientClasses.hasOwnProperty(clientClass)) {
-        angular.module('components').service(clientClass, ['$http', '$q', getApiUrlConstantFromClassName(clientClass), clientClasses[clientClass]]);
+        angular.module('angularApp').service(clientClass, ['$http', '$q', clientClasses[clientClass]]);
     }
-}
-
-function getApiUrlConstantFromClassName(className: string): string {
-    let firstChar = className.substring(0, 1).toLowerCase();
-
-    return firstChar + className.substring(1).replace('Client', '') + 'ApiUrl';
-}
 }
 }

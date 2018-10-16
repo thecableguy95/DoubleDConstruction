@@ -17,10 +17,10 @@
         ]
     },
     {
-        "outputFileName": "wwwroot/appBase.js",
+        "outputFileName": "wwwroot/AppBase.js",
         // An array of relative input file paths. Globbing patterns supported
         "inputFiles": [
-            "wwwroot/appBase/**/*.js"
+            "wwwroot/AppBase/**/*.js"
         ]
     },
     {

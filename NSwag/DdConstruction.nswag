@@ -1,14 +1,14 @@
 ﻿{
   "swaggerGenerator": {
     "fromSwagger": {
-      "url": "http://localhost:49848/swagger/v1/swagger.json",
+      "url": "http://localhost:49847/swagger/v1/swagger.json",
       "output": null
     }
   },
   "codeGenerators": {
     "swaggerToTypeScriptClient": {
-      "className": "DdConstruction",
-      "moduleName": "angularApp",
+      "className": "DdConstructionClient",
+      "moduleName": "",
       "namespace": "DdConstruction.Client",
       "typeScriptVersion": 2.0,
       "template": "AngularJS",

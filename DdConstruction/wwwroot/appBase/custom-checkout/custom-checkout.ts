@@ -9,7 +9,9 @@
     }
 
     export interface ICustomCheckoutController extends ng.IController {
-        cartTotal: string;
+        GetCartTotal(): string;
+        IsCartEmpty(): boolean;
+        GetCartItems(): any[];
     }
 
     class CustomCheckoutController implements ICustomCheckoutController {
@@ -26,12 +28,12 @@
         }
 
         public $onInit = (): void => {
-            this.ngCart.setTaxRate(7.5);
-            this.cartTotal = "999";
         }
 
         public GetCartTotal = (): string => {
-            return this.cartTotal;
+            let total = (Math.round(this.ngCart.totalCost() * 100)).toString();
+
+            return total;
         }
 
         public GetCartItems = (): any[] => {
