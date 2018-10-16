@@ -298,7 +298,6 @@ var DdConstruction;
             this.GetCartTotal = function () {
                 var total = (Math.round(_this.ngCart.totalCost() * 100)).toString();
                 return total;
-                //return total.substr(0, (total.indexOf(".")));
             };
             this.GetCartItems = function () {
                 return _this.ngCart.getItems();
