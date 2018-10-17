@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[CustomerOrder] (
-    [OrderId]       INT      IDENTITY (1, 1) NOT NULL,
+    [OrderId]       INT      IDENTITY (1000, 1) NOT NULL,
     [CreateDate]    DATETIME NOT NULL,
     [OrderStatusId] INT      NOT NULL,
     [FulfilledDate] DATETIME NULL,

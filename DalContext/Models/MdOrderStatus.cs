@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace DalContext.Models
+namespace DdConstruction
 {
     public partial class MdOrderStatus
     {

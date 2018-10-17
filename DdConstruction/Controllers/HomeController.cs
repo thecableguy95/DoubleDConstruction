@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 using DdConstruction.Models;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
@@ -7,6 +10,10 @@ namespace DdConstruction.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DoubleDConstructionContext context;
+
+        public HomeController(DoubleDConstructionContext context) => this.context = context;
+
         public IActionResult Index()
         {
             return View(new IndexViewModel());
@@ -34,39 +41,77 @@ namespace DdConstruction.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckoutPost(string stripeToken)
+        public IActionResult CheckoutPost(string stripeToken, string cartTotal, string streetAddress, string city, string state, string zipCode, string cartItemIds)
         {
+            int amount = int.Parse(cartTotal);
+
+            // Get the ProductIds from the cartItems
+            var productIds = new List<int>();
+
+            foreach (var item in cartItemIds.Split(','))
+            {
+                productIds.Add(SanitizeProductdId(item));
+            }
+
+            // Need to save the order to our database
+            var customerOrder = new CustomerOrder { CreateDate = DateTime.UtcNow, OrderStatusId = 1, FulfilledDate = null };
+            context.CustomerOrder.Add(customerOrder);
+
+            context.SaveChanges();
+
+            var orderId = customerOrder.OrderId;
+
+            foreach (var productId in productIds)
+            {
+                var customerProductOrder = new CustomerProductOrder { ProductId = productId, OrderId = orderId };
+                context.CustomerProductOrder.Add(customerProductOrder);
+            }
+
+            context.SaveChanges();
+
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
             StripeConfiguration.SetApiKey("sk_test_47M1I8EA24tScfkSjYCC7Lj0");
 
             var options = new StripeChargeCreateOptions
             {
-                Amount = 999,
+                Amount = amount,
                 Currency = "usd",
                 Description = "Example charge",
-                SourceTokenOrExistingSourceId = stripeToken,
+                SourceTokenOrExistingSourceId = stripeToken
             };
             var service = new StripeChargeService();
             StripeCharge charge = service.Create(options);
 
-            return RedirectToAction("Payment");
+            if (charge.Outcome.Type != "authorized")
+            {
+                // something went wrong, payment failed
+                return RedirectToAction("PaymentFailed", new { charge });
+            }
+
+            return PaymentSuccess(charge);
         }
 
-        public IActionResult Payment()
+        public IActionResult PaymentSuccess(StripeCharge charge)
         {
-            return View(new PaymentViewModel());
+            return View(new PaymentSuccessViewModel());
         }
 
-        //[HttpPost]
-        //public IActionResult PaymentPost()
-        //{
-
-        //}
+        public IActionResult PaymentFailed(StripeCharge charge)
+        {
+            return View(new PaymentFailedViewModel());
+        }
 
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private int SanitizeProductdId(string item)
+        {
+            var productId = int.Parse(Regex.Replace(item, "[^0-9.]", ""));
+
+            return productId;
         }
     }
 }

@@ -9,9 +9,13 @@
     }
 
     export interface ICustomCheckoutController extends ng.IController {
+        streetAddress: string;
+        city: string;
+        state: string;
+        zipCode: string;
         GetCartTotal(): string;
         IsCartEmpty(): boolean;
-        GetCartItems(): any[];
+        GetCartItemIds(): string[];
     }
 
     class CustomCheckoutController implements ICustomCheckoutController {
@@ -20,6 +24,10 @@
         private http: ng.IHttpService;
         private ngCart: any;
 
+        public streetAddress: string;
+        public city: string;
+        public state: string;
+        public zipCode: string;
         public cartTotal: string;
 
         constructor($http: ng.IHttpService, ngCart: any) {
@@ -36,8 +44,20 @@
             return total;
         }
 
-        public GetCartItems = (): any[] => {
-            return this.ngCart.getItems();
+        public GetCartItemIds = (): string[] => {
+            let cartItems: any = this.ngCart.getItems();
+
+            let itemIds: string[] = [];
+
+            angular.forEach(cartItems, function (value) {
+                itemIds.push(value.getId() + "~" + value.getQuantity() + ",");
+            });
+
+            if (itemIds.length > 0) {
+                itemIds.splice(itemIds.length);
+            }
+
+            return itemIds;
         }
 
         public IsCartEmpty = (): boolean => {

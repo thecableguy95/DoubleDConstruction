@@ -46,4 +46,11 @@
     <Folder Include="wwwroot\AppBase\api\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Controllers\HomeController.cs">
+      <ExcludeFromSourceAnalysis>True</ExcludeFromSourceAnalysis>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+  </ItemGroup>
+
 </Project>

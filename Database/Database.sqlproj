@@ -68,4 +68,7 @@
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\CustomerProductOrder.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="readme.txt" />
+  </ItemGroup>
 </Project>

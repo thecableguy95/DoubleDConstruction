@@ -299,8 +299,16 @@ var DdConstruction;
                 var total = (Math.round(_this.ngCart.totalCost() * 100)).toString();
                 return total;
             };
-            this.GetCartItems = function () {
-                return _this.ngCart.getItems();
+            this.GetCartItemIds = function () {
+                var cartItems = _this.ngCart.getItems();
+                var itemIds = [];
+                angular.forEach(cartItems, function (value) {
+                    itemIds.push(value.getId() + ",");
+                });
+                if (itemIds.length > 0) {
+                    itemIds.splice(itemIds.length);
+                }
+                return itemIds;
             };
             this.IsCartEmpty = function () {
                 return _this.ngCart.getTotalItems() === 0;

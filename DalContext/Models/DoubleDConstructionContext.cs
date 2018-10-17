@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace DalContext.Models
+namespace DdConstruction
 {
     public partial class DoubleDConstructionContext : DbContext
     {
@@ -53,11 +55,13 @@ namespace DalContext.Models
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.CustomerProductOrder)
                     .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Order_OrderId");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.CustomerProductOrder)
                     .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_ProductId");
             });
 
@@ -79,7 +83,7 @@ namespace DalContext.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             });
         }
     }

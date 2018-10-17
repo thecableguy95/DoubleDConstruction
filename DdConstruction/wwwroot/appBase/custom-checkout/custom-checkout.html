@@ -1,13 +1,52 @@
 ﻿<div data-ng-if="!$ctrl.IsCartEmpty()">
-    <form action="CheckoutPost" method="POST">
-        <p>{{$ctrl.GetCartTotal()}}</p>
-        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                data-key="pk_test_YArjCbIuqCA8CPSt5NyUJprp"
-                data-amount="{{$ctrl.GetCartTotal()}}"
-                data-name="doubledtest.azurewebsites.net"
-                data-description="Example charge"
-                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                data-locale="auto">
-        </script>
+    <form name="shippingInformation">
+        <div class="form-group row">
+            <label for="streetAddress" class="col-sm-2 col-form-label">Street Address</label>
+            <div class="col-sm-5">
+                <input name="streetAddress" class="form-control" type="text" id="streetAddress" data-ng-model="$ctrl.streetAddress" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="city" class="col-sm-2 col-form-label">City</label>
+            <div class="col-sm-5">
+                <input name="city" class="form-control" type="text" id="city" data-ng-model="$ctrl.city" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="state" class="col-sm-2 col-form-label">State</label>
+            <div class="col-sm-5">
+                <input name="state" class="form-control" type="text" id="state" data-ng-model="$ctrl.state" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="zipCode" class="col-sm-2 col-form-label">ZipCode</label>
+            <div class="col-sm-5">
+                <input name="zipCode" class="form-control" type="text" id="zipCode" data-ng-model="$ctrl.zipCode" required>
+            </div>
+        </div>
     </form>
+
+    <div data-ng-if="shippingInformation.$valid">
+        <form name="checkoutForm" action="CheckoutPost" method="POST">
+
+            <input type="hidden" name="cartTotal" value="{{$ctrl.GetCartTotal()}}" />
+            <input type="hidden" name="streetAddress" value="{{$ctrl.streetAddress}}" />
+            <input type="hidden" name="city" value="{{$ctrl.city}}" />
+            <input type="hidden" name="state" value="{{$ctrl.state}}" />
+            <input type="hidden" name="zipCode" value="{{$ctrl.zipCode}}" />
+            <input type="hidden" name="cartItemIds" value="{{$ctrl.GetCartItemIds()}}" />
+
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="pk_test_YArjCbIuqCA8CPSt5NyUJprp"
+                    data-amount="{{$ctrl.GetCartTotal()}}"
+                    data-name="joedarkness.org"
+                    data-description="Example charge"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto">
+            </script>
+        </form>
+    </div>
 </div>
