@@ -41,16 +41,16 @@ namespace DdConstruction.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckoutPost(string stripeToken, string cartTotal, string streetAddress, string city, string state, string zipCode, string cartItemIds)
+        public IActionResult CheckoutPost(string stripeToken, string cartTotal, string streetAddress, string city, string state, string zipCode, string cartItemInfo)
         {
             int amount = int.Parse(cartTotal);
 
             // Get the ProductIds from the cartItems
-            var productIds = new List<int>();
+            var products = new Dictionary<int, int>();
 
-            foreach (var item in cartItemIds.Split(','))
+            foreach (var item in cartItemInfo.Split(','))
             {
-                productIds.Add(SanitizeProductdId(item));
+                products.Add(SanitizeProductdId(item), SanitizeItemQuantity(item));
             }
 
             // Need to save the order to our database
@@ -61,9 +61,9 @@ namespace DdConstruction.Controllers
 
             var orderId = customerOrder.OrderId;
 
-            foreach (var productId in productIds)
+            foreach (var productId in products.Keys)
             {
-                var customerProductOrder = new CustomerProductOrder { ProductId = productId, OrderId = orderId };
+                var customerProductOrder = new CustomerProductOrder { ProductId = productId, OrderId = orderId, Quantity = products[productId] };
                 context.CustomerProductOrder.Add(customerProductOrder);
             }
 
@@ -109,9 +109,16 @@ namespace DdConstruction.Controllers
 
         private int SanitizeProductdId(string item)
         {
-            var productId = int.Parse(Regex.Replace(item, "[^0-9.]", ""));
+            var productId = Regex.Replace(item, "[^0-9~]", "");
 
-            return productId;
+            return int.Parse(productId.Substring(0, 1));
+        }
+
+        private int SanitizeItemQuantity(string item)
+        {
+            var quantity = Regex.Replace(item, "[^0-9~]", "");
+
+            return int.Parse(quantity.Substring(2, 1));
         }
     }
 }

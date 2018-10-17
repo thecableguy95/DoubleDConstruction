@@ -15,7 +15,7 @@
         zipCode: string;
         GetCartTotal(): string;
         IsCartEmpty(): boolean;
-        GetCartItemIds(): string[];
+        GetCartItemInfo(): string[];
     }
 
     class CustomCheckoutController implements ICustomCheckoutController {
@@ -44,13 +44,13 @@
             return total;
         }
 
-        public GetCartItemIds = (): string[] => {
+        public GetCartItemInfo = (): string[] => {
             let cartItems: any = this.ngCart.getItems();
 
             let itemIds: string[] = [];
 
             angular.forEach(cartItems, function (value) {
-                itemIds.push(value.getId() + "~" + value.getQuantity() + ",");
+                itemIds.push(value.getId() + "~" + value.getQuantity());
             });
 
             if (itemIds.length > 0) {
