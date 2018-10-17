@@ -303,7 +303,7 @@ var DdConstruction;
                 var cartItems = _this.ngCart.getItems();
                 var itemIds = [];
                 angular.forEach(cartItems, function (value) {
-                    itemIds.push(value.getId() + ",");
+                    itemIds.push(value.getId() + "~" + value.getQuantity() + ",");
                 });
                 if (itemIds.length > 0) {
                     itemIds.splice(itemIds.length);
