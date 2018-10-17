@@ -1,6 +1,6 @@
 var DdConstruction;
 (function (DdConstruction) {
-    angular.module('angularApp', ['ngCart', 'siteConstants']);
+    angular.module('angularApp', ['ngCart', 'siteConstants', 'ngAnimate', 'toastr']);
 })(DdConstruction || (DdConstruction = {}));
 
 var DdConstruction;

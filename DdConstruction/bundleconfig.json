@@ -17,6 +17,20 @@
         ]
     },
     {
+        "outputFileName": "wwwroot/css/angular-toastr.css",
+        // An array of relative input file paths. Globbing patterns supported
+        "inputFiles": [
+            "node_modules/angular-toastr/dist/angular-toastr.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/css/angular-toastr.min.css",
+        // An array of relative input file paths. Globbing patterns supported
+        "inputFiles": [
+            "node_modules/angular-toastr/dist/angular-toastr.min.css"
+        ]
+    },
+    {
         "outputFileName": "wwwroot/AppBase.js",
         // An array of relative input file paths. Globbing patterns supported
         "inputFiles": [
@@ -31,10 +45,38 @@
         ]
     },
     {
+        "outputFileName": "wwwroot/js/angular-animate.min.js",
+        // An array of relative input file paths. Globbing patterns supported
+        "inputFiles": [
+            "node_modules/angular-animate/angular-animate.min.js"
+        ]
+    },
+    {
         "outputFileName": "wwwroot/js/angular.js",
         // An array of relative input file paths. Globbing patterns supported
         "inputFiles": [
             "node_modules/angular/angular.js"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/js/angular-animate.js",
+        // An array of relative input file paths. Globbing patterns supported
+        "inputFiles": [
+            "node_modules/angular-animate/angular-animate.js"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/js/angular-toastr.js",
+        // An array of relative input file paths. Globbing patterns supported
+        "inputFiles": [
+            "node_modules/angular-toastr/dist/angular-toastr.tpls.js"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/js/angular-toastr.min.js",
+        // An array of relative input file paths. Globbing patterns supported
+        "inputFiles": [
+            "node_modules/angular-toastr/dist/angular-toastr.tpls.min.js"
         ]
     },
     {

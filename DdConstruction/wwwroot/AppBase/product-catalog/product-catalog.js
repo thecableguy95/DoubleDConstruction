@@ -7,17 +7,16 @@ var DdConstruction;
         controller: 'ProductCatalogController'
     };
     var ProductCatalogController = /** @class */ (function () {
-        function ProductCatalogController($http, ddConstructionClient) {
+        function ProductCatalogController(ddConstructionClient) {
             var _this = this;
             this.$onInit = function () {
                 _this.ddConstructionClient.getAllProducts().then(function (products) {
                     _this.catalogItems = products;
                 });
             };
-            this.http = $http;
             this.ddConstructionClient = ddConstructionClient;
         }
-        ProductCatalogController.$inject = ['$http', 'DdConstructionClient'];
+        ProductCatalogController.$inject = ['DdConstructionClient'];
         return ProductCatalogController;
     }());
     angular.module('angularApp')

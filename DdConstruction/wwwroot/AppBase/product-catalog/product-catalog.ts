@@ -17,16 +17,12 @@
     }
 
     class ProductCatalogController implements IProductCatalogController {
-        public static readonly $inject: string[] = ['$http', 'DdConstructionClient'];
-
-        private http: ng.IHttpService;
-        private paths: IPaths;
+        public static readonly $inject: string[] = ['DdConstructionClient'];
 
         public ddConstructionClient: IDdConstructionClient;
         public catalogItems: Product[];
 
-        constructor($http: ng.IHttpService, ddConstructionClient: IDdConstructionClient) {
-            this.http = $http;
+        constructor(ddConstructionClient: IDdConstructionClient) {
             this.ddConstructionClient = ddConstructionClient;
         }
 

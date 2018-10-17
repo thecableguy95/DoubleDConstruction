@@ -130,6 +130,7 @@ var DdConstruction;
                 if (data) {
                     this.customerProductOrder1 = data["customerProductOrder1"] !== undefined ? data["customerProductOrder1"] : null;
                     this.productId = data["productId"] !== undefined ? data["productId"] : null;
+                    this.quantity = data["quantity"] !== undefined ? data["quantity"] : null;
                     this.orderId = data["orderId"] !== undefined ? data["orderId"] : null;
                     this.order = data["order"] ? CustomerOrder.fromJS(data["order"]) : null;
                     this.product = data["product"] ? Product.fromJS(data["product"]) : null;
@@ -144,6 +145,7 @@ var DdConstruction;
                 data = typeof data === 'object' ? data : {};
                 data["customerProductOrder1"] = this.customerProductOrder1 !== undefined ? this.customerProductOrder1 : null;
                 data["productId"] = this.productId !== undefined ? this.productId : null;
+                data["quantity"] = this.quantity !== undefined ? this.quantity : null;
                 data["orderId"] = this.orderId !== undefined ? this.orderId : null;
                 data["order"] = this.order ? this.order.toJSON() : null;
                 data["product"] = this.product ? this.product.toJSON() : null;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using DdConstruction.Models;
+using DdConstruction.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 
@@ -83,22 +84,28 @@ namespace DdConstruction.Controllers
             var service = new StripeChargeService();
             StripeCharge charge = service.Create(options);
 
+            TempData.Put("chare", charge);
+
             if (charge.Outcome.Type != "authorized")
             {
                 // something went wrong, payment failed
-                return RedirectToAction("PaymentFailed", new { charge });
+                return RedirectToAction("PaymentFailed");
             }
 
-            return PaymentSuccess(charge);
+            return RedirectToAction("PaymentSuccess");
         }
 
-        public IActionResult PaymentSuccess(StripeCharge charge)
+        // Requires StripeCharge from TempData
+        public IActionResult PaymentSuccess()
         {
-            return View(new PaymentSuccessViewModel());
+            var charge = TempData.Get<StripeCharge>("charge");
+            return View(new PaymentSuccessViewModel { Charge = charge });
         }
 
-        public IActionResult PaymentFailed(StripeCharge charge)
+        // Requires StripeCharge from TempData
+        public IActionResult PaymentFailed()
         {
+            var charge = (StripeCharge)TempData["charge"];
             return View(new PaymentFailedViewModel());
         }
 

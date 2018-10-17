@@ -130,6 +130,7 @@ var DdConstruction;
                 if (data) {
                     this.customerProductOrder1 = data["customerProductOrder1"] !== undefined ? data["customerProductOrder1"] : null;
                     this.productId = data["productId"] !== undefined ? data["productId"] : null;
+                    this.quantity = data["quantity"] !== undefined ? data["quantity"] : null;
                     this.orderId = data["orderId"] !== undefined ? data["orderId"] : null;
                     this.order = data["order"] ? CustomerOrder.fromJS(data["order"]) : null;
                     this.product = data["product"] ? Product.fromJS(data["product"]) : null;
@@ -144,6 +145,7 @@ var DdConstruction;
                 data = typeof data === 'object' ? data : {};
                 data["customerProductOrder1"] = this.customerProductOrder1 !== undefined ? this.customerProductOrder1 : null;
                 data["productId"] = this.productId !== undefined ? this.productId : null;
+                data["quantity"] = this.quantity !== undefined ? this.quantity : null;
                 data["orderId"] = this.orderId !== undefined ? this.orderId : null;
                 data["order"] = this.order ? this.order.toJSON() : null;
                 data["product"] = this.product ? this.product.toJSON() : null;
@@ -285,6 +287,32 @@ var DdConstruction;
 var DdConstruction;
 (function (DdConstruction) {
     'use strict';
+    var ClearCartComponent = {
+        bindings: {},
+        templateUrl: ['paths', function (paths) { return paths.AppBase + "clear-cart/clear-cart.html"; }],
+        controller: 'ClearCartController'
+    };
+    var ClearCartController = /** @class */ (function () {
+        function ClearCartController(ngCart, toastr) {
+            var _this = this;
+            this.$onInit = function () {
+                _this.ngCart.empty();
+                _this.toastr.success("Order was received successfully!");
+            };
+            this.ngCart = ngCart;
+            this.toastr = toastr;
+        }
+        ClearCartController.$inject = ['ngCart', 'toastr'];
+        return ClearCartController;
+    }());
+    angular.module('angularApp')
+        .component('clearCart', ClearCartComponent)
+        .controller('ClearCartController', ClearCartController);
+})(DdConstruction || (DdConstruction = {}));
+
+var DdConstruction;
+(function (DdConstruction) {
+    'use strict';
     var CustomCheckoutComponent = {
         bindings: {},
         templateUrl: ['paths', function (paths) { return paths.AppBase + "custom-checkout/custom-checkout.html"; }],
@@ -333,17 +361,16 @@ var DdConstruction;
         controller: 'ProductCatalogController'
     };
     var ProductCatalogController = /** @class */ (function () {
-        function ProductCatalogController($http, ddConstructionClient) {
+        function ProductCatalogController(ddConstructionClient) {
             var _this = this;
             this.$onInit = function () {
                 _this.ddConstructionClient.getAllProducts().then(function (products) {
                     _this.catalogItems = products;
                 });
             };
-            this.http = $http;
             this.ddConstructionClient = ddConstructionClient;
         }
-        ProductCatalogController.$inject = ['$http', 'DdConstructionClient'];
+        ProductCatalogController.$inject = ['DdConstructionClient'];
         return ProductCatalogController;
     }());
     angular.module('angularApp')

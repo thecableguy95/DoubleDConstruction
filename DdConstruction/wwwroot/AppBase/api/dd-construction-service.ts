@@ -125,8 +125,9 @@ export interface IProduct {
 
 export class CustomerProductOrder implements ICustomerProductOrder {
     customerProductOrder1: number;
-    productId?: number | null;
-    orderId?: number | null;
+    productId: number;
+    quantity: number;
+    orderId: number;
     order?: CustomerOrder | null;
     product?: Product | null;
 
@@ -143,6 +144,7 @@ export class CustomerProductOrder implements ICustomerProductOrder {
         if (data) {
             this.customerProductOrder1 = data["customerProductOrder1"] !== undefined ? data["customerProductOrder1"] : <any>null;
             this.productId = data["productId"] !== undefined ? data["productId"] : <any>null;
+            this.quantity = data["quantity"] !== undefined ? data["quantity"] : <any>null;
             this.orderId = data["orderId"] !== undefined ? data["orderId"] : <any>null;
             this.order = data["order"] ? CustomerOrder.fromJS(data["order"]) : <any>null;
             this.product = data["product"] ? Product.fromJS(data["product"]) : <any>null;
@@ -159,6 +161,7 @@ export class CustomerProductOrder implements ICustomerProductOrder {
         data = typeof data === 'object' ? data : {};
         data["customerProductOrder1"] = this.customerProductOrder1 !== undefined ? this.customerProductOrder1 : <any>null;
         data["productId"] = this.productId !== undefined ? this.productId : <any>null;
+        data["quantity"] = this.quantity !== undefined ? this.quantity : <any>null;
         data["orderId"] = this.orderId !== undefined ? this.orderId : <any>null;
         data["order"] = this.order ? this.order.toJSON() : <any>null;
         data["product"] = this.product ? this.product.toJSON() : <any>null;
@@ -168,8 +171,9 @@ export class CustomerProductOrder implements ICustomerProductOrder {
 
 export interface ICustomerProductOrder {
     customerProductOrder1: number;
-    productId?: number | null;
-    orderId?: number | null;
+    productId: number;
+    quantity: number;
+    orderId: number;
     order?: CustomerOrder | null;
     product?: Product | null;
 }
