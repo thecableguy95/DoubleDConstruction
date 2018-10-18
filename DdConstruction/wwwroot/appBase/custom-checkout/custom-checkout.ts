@@ -9,6 +9,7 @@
     }
 
     export interface ICustomCheckoutController extends ng.IController {
+        name: string;
         streetAddress: string;
         city: string;
         state: string;
@@ -24,6 +25,7 @@
         private http: ng.IHttpService;
         private ngCart: any;
 
+        public name: string;
         public streetAddress: string;
         public city: string;
         public state: string;

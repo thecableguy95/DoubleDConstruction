@@ -33,8 +33,9 @@ namespace DdConstruction
                 optionsBuilder.UseSqlServer(config.SqlServerConnectionString);
 
                 return optionsBuilder.Options;
-
             });
+
+            services.AddCors(options => options.AddPolicy("DefaultPolicyName", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
 
             services.AddDbContext<DoubleDConstructionContext>(ServiceLifetime.Scoped);
 
@@ -64,6 +65,8 @@ namespace DdConstruction
                 settings.GeneratorSettings.DefaultPropertyNameHandling =
                     PropertyNameHandling.CamelCase;
             });
+
+            app.UseCors("DefaultPolicyName");
 
             app.UseMvc(routes =>
             {

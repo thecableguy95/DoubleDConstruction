@@ -1,6 +1,7 @@
 ﻿<div class="row">
-    <div class="col-sm-6" data-ng-repeat="product in $ctrl.catalogItems">
-        <p>{{product.description}}</p>
+    <div class="col-lg-4 col-sm-6" data-ng-repeat="product in $ctrl.catalogItems">
+        <img src="https://via.placeholder.com/300x200">
+        <p>{{product.description}} - {{product.price}}</p>
         <ngcart-addtocart id="{{product.productId}}" name="{{product.description}}" price="{{product.price}}" quantity="1" quantity-max="5">Add to Cart</ngcart-addtocart>
     </div>
 </div>

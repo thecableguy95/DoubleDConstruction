@@ -1,29 +1,36 @@
 ﻿<div data-ng-if="!$ctrl.IsCartEmpty()">
     <form name="shippingInformation">
         <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-4">
+                <input name="name" class="form-control" type="text" id="name" data-ng-model="$ctrl.name" required>
+            </div>
+        </div>
+
+        <div class="form-group row">
             <label for="streetAddress" class="col-sm-2 col-form-label">Street Address</label>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <input name="streetAddress" class="form-control" type="text" id="streetAddress" data-ng-model="$ctrl.streetAddress" required>
             </div>
         </div>
 
         <div class="form-group row">
             <label for="city" class="col-sm-2 col-form-label">City</label>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <input name="city" class="form-control" type="text" id="city" data-ng-model="$ctrl.city" required>
             </div>
         </div>
 
         <div class="form-group row">
             <label for="state" class="col-sm-2 col-form-label">State</label>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <input name="state" class="form-control" type="text" id="state" data-ng-model="$ctrl.state" required>
             </div>
         </div>
 
         <div class="form-group row">
             <label for="zipCode" class="col-sm-2 col-form-label">ZipCode</label>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <input name="zipCode" class="form-control" type="text" id="zipCode" data-ng-model="$ctrl.zipCode" required>
             </div>
         </div>
