@@ -1,10 +1,11 @@
 {
   "dependencies": {
+    "@cgross/angular-busy": "4.1.4",
     "@types/angular": "1.6.51",
-    "@types/angular-toastr": "^1.6.33",
+    "@types/angular-toastr": "1.6.33",
     "angular": "1.6.9",
-    "angular-animate": "^1.6.9",
-    "angular-toastr": "^2.1.1",
+    "angular-animate": "1.6.9",
+    "angular-toastr": "2.1.1",
     "ngCart": "1.0.0"
   }
 }

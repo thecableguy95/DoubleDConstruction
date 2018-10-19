@@ -1,11 +1,11 @@
 ﻿@model DdConstruction.Models.PaymentSuccessViewModel
 
 @{
-    ViewData["Title"] = "Payment";
+    ViewData["Title"] = "Order Complete";
 }
 
 <br /><br />
 
-Payment View
+<h2>Thank you for your Order! Your OrderId is @Model.Charge.OrderId</h2>
 
 <clear-cart></clear-cart>

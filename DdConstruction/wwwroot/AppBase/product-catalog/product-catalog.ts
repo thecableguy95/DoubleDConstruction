@@ -14,6 +14,7 @@
     export interface IProductCatalogController extends ng.IController {
         ddConstructionClient: IDdConstructionClient;
         catalogItems: Product[];
+        load: ng.IPromise<void>;
     }
 
     class ProductCatalogController implements IProductCatalogController {
@@ -21,13 +22,14 @@
 
         public ddConstructionClient: IDdConstructionClient;
         public catalogItems: Product[];
+        public load: ng.IPromise<void>;
 
         constructor(ddConstructionClient: IDdConstructionClient) {
             this.ddConstructionClient = ddConstructionClient;
         }
 
         public $onInit = (): void => {
-            this.ddConstructionClient.getAllProducts().then(products => {
+            this.load = this.ddConstructionClient.getAllProducts().then(products => {
                 this.catalogItems = products;
             });
         }

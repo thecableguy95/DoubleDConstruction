@@ -6,6 +6,7 @@ using DdConstruction.Models;
 using DdConstruction.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+using static DdConstruction.DomainModel.Constants;
 
 namespace DdConstruction.Controllers
 {
@@ -55,7 +56,7 @@ namespace DdConstruction.Controllers
             }
 
             // Need to save the order to our database
-            var customerOrder = new CustomerOrder { CreateDate = DateTime.UtcNow, OrderStatusId = 1, FulfilledDate = null };
+            var customerOrder = new CustomerOrder { CreateDate = DateTime.UtcNow, OrderStatusId = (int)OrderStatus.PendingCharge, FulfilledDate = null };
             context.CustomerOrder.Add(customerOrder);
 
             context.SaveChanges();
