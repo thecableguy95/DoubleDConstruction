@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DdConstruction.Service;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
@@ -9,18 +10,16 @@ namespace DdConstruction.ApiControllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly DoubleDConstructionContext context;
+        private readonly IProductService productService;
 
-        public ProductController(DoubleDConstructionContext context) => this.context = context;
+        public ProductController(IProductService productService)
+        {
+            this.productService = productService ?? throw new System.ArgumentNullException(nameof(productService));
+        }
 
         [HttpGet]
         [SwaggerOperation("GetAllProducts")]
         [ProducesResponseType(typeof(List<Product>), 200)]
-        public ActionResult<List<Product>> GetAll()
-        {
-            var products = context.Product.ToList();
-
-            return products;
-        }
+        public ActionResult<List<Product>> GetAll() => productService.GetAllProducts().ToList();
     }
 }

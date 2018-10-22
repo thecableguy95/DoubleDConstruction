@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalContext", "DalContext\Da
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{1A446CD3-0AEE-44A0-BAB9-1BCA4EF0114B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DdConstruction.Service", "DdConstruction.Service\DdConstruction.Service.csproj", "{1B97CA96-2987-48FF-A612-BD3088CF15FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DdConstruction.DomainModel", "DdConstruction.DomainModel\DdConstruction.DomainModel.csproj", "{0358B4C8-4767-435B-99E8-68CB126AEE40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{1A446CD3-0AEE-44A0-BAB9-1BCA4EF0114B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A446CD3-0AEE-44A0-BAB9-1BCA4EF0114B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A446CD3-0AEE-44A0-BAB9-1BCA4EF0114B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1B97CA96-2987-48FF-A612-BD3088CF15FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B97CA96-2987-48FF-A612-BD3088CF15FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B97CA96-2987-48FF-A612-BD3088CF15FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B97CA96-2987-48FF-A612-BD3088CF15FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0358B4C8-4767-435B-99E8-68CB126AEE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0358B4C8-4767-435B-99E8-68CB126AEE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0358B4C8-4767-435B-99E8-68CB126AEE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0358B4C8-4767-435B-99E8-68CB126AEE40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

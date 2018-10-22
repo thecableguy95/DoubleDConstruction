@@ -1,0 +1,12 @@
+﻿@model DdConstruction.Models.PaymentFailedViewModel
+
+@{
+    ViewData["Title"] = "Order Failed";
+}
+
+<h2>Something went wrong and your payment was not able to be processed</h2>
+
+@if (!string.IsNullOrEmpty(Model.Reason))
+{
+    <h3>@Model.Reason</h3>
+}

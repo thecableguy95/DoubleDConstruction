@@ -49,13 +49,6 @@
 
     // Javascript
     {
-        "outputFileName": "wwwroot/AppBase.js",
-        // An array of relative input file paths. Globbing patterns supported
-        "inputFiles": [
-            "wwwroot/AppBase/**/*.js"
-        ]
-    },
-    {
         "outputFileName": "wwwroot/js/angular.min.js",
         // An array of relative input file paths. Globbing patterns supported
         "inputFiles": [
@@ -135,6 +128,13 @@
         // An array of relative input file paths. Globbing patterns supported
         "inputFiles": [
             "node_modules/@cgross/angular-busy/dist/angular-busy.min.js"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/AppBase.js",
+        // An array of relative input file paths. Globbing patterns supported
+        "inputFiles": [
+            "wwwroot/AppBase/**/*.js"
         ]
     }
 ]

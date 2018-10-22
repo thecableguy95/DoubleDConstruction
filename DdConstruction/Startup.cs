@@ -1,4 +1,5 @@
 ﻿using DdConstruction.DomainModel;
+using DdConstruction.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,8 @@ namespace DdConstruction
             services.AddDbContext<DoubleDConstructionContext>(ServiceLifetime.Scoped);
 
             services.AddMvc();
+
+            services.AddDdConstructionService();
 
             services.AddSwagger();
         }

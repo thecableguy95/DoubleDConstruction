@@ -1,6 +1,4 @@
-﻿using Stripe;
-
-namespace DdConstruction.Models
+﻿namespace DdConstruction.Models
 {
     public class PaymentSuccessViewModel : BaseIndexViewModel
     {
@@ -8,6 +6,6 @@ namespace DdConstruction.Models
 
         public PaymentSuccessViewModel() : base(angularApplicationName) { }
 
-        public StripeCharge Charge { get; set; }
+        public string OrderId { get; set; }
     }
 }

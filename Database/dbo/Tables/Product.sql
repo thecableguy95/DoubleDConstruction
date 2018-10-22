@@ -2,6 +2,7 @@
     [ProductId]   INT             IDENTITY (1, 1) NOT NULL,
     [Price]       DECIMAL (10, 2) NOT NULL,
     [Description] VARCHAR (50)    NOT NULL,
-    CONSTRAINT [PK_ProductId] PRIMARY KEY CLUSTERED ([ProductId] ASC)
+    [OnSale] BIT NOT NULL DEFAULT ('False'), 
+    CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED ([ProductId] ASC)
 );
 

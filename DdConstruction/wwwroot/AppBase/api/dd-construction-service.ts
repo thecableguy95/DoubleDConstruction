@@ -182,6 +182,7 @@ export class CustomerOrder implements ICustomerOrder {
     orderId: number;
     createDate: Date;
     orderStatusId: number;
+    stripePaymentId?: string | null;
     fulfilledDate?: Date | null;
     orderStatus?: MdOrderStatus | null;
     customerProductOrder?: CustomerProductOrder[] | null;
@@ -200,6 +201,7 @@ export class CustomerOrder implements ICustomerOrder {
             this.orderId = data["orderId"] !== undefined ? data["orderId"] : <any>null;
             this.createDate = data["createDate"] ? new Date(data["createDate"].toString()) : <any>null;
             this.orderStatusId = data["orderStatusId"] !== undefined ? data["orderStatusId"] : <any>null;
+            this.stripePaymentId = data["stripePaymentId"] !== undefined ? data["stripePaymentId"] : <any>null;
             this.fulfilledDate = data["fulfilledDate"] ? new Date(data["fulfilledDate"].toString()) : <any>null;
             this.orderStatus = data["orderStatus"] ? MdOrderStatus.fromJS(data["orderStatus"]) : <any>null;
             if (data["customerProductOrder"] && data["customerProductOrder"].constructor === Array) {
@@ -221,6 +223,7 @@ export class CustomerOrder implements ICustomerOrder {
         data["orderId"] = this.orderId !== undefined ? this.orderId : <any>null;
         data["createDate"] = this.createDate ? this.createDate.toISOString() : <any>null;
         data["orderStatusId"] = this.orderStatusId !== undefined ? this.orderStatusId : <any>null;
+        data["stripePaymentId"] = this.stripePaymentId !== undefined ? this.stripePaymentId : <any>null;
         data["fulfilledDate"] = this.fulfilledDate ? this.fulfilledDate.toISOString() : <any>null;
         data["orderStatus"] = this.orderStatus ? this.orderStatus.toJSON() : <any>null;
         if (this.customerProductOrder && this.customerProductOrder.constructor === Array) {
@@ -236,6 +239,7 @@ export interface ICustomerOrder {
     orderId: number;
     createDate: Date;
     orderStatusId: number;
+    stripePaymentId?: string | null;
     fulfilledDate?: Date | null;
     orderStatus?: MdOrderStatus | null;
     customerProductOrder?: CustomerProductOrder[] | null;

@@ -168,6 +168,7 @@ var DdConstruction;
                     this.orderId = data["orderId"] !== undefined ? data["orderId"] : null;
                     this.createDate = data["createDate"] ? new Date(data["createDate"].toString()) : null;
                     this.orderStatusId = data["orderStatusId"] !== undefined ? data["orderStatusId"] : null;
+                    this.stripePaymentId = data["stripePaymentId"] !== undefined ? data["stripePaymentId"] : null;
                     this.fulfilledDate = data["fulfilledDate"] ? new Date(data["fulfilledDate"].toString()) : null;
                     this.orderStatus = data["orderStatus"] ? MdOrderStatus.fromJS(data["orderStatus"]) : null;
                     if (data["customerProductOrder"] && data["customerProductOrder"].constructor === Array) {
@@ -189,6 +190,7 @@ var DdConstruction;
                 data["orderId"] = this.orderId !== undefined ? this.orderId : null;
                 data["createDate"] = this.createDate ? this.createDate.toISOString() : null;
                 data["orderStatusId"] = this.orderStatusId !== undefined ? this.orderStatusId : null;
+                data["stripePaymentId"] = this.stripePaymentId !== undefined ? this.stripePaymentId : null;
                 data["fulfilledDate"] = this.fulfilledDate ? this.fulfilledDate.toISOString() : null;
                 data["orderStatus"] = this.orderStatus ? this.orderStatus.toJSON() : null;
                 if (this.customerProductOrder && this.customerProductOrder.constructor === Array) {

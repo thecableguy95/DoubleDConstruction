@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
+using DdConstruction.DomainModel;
 using DdConstruction.Models;
-using DdConstruction.Utility;
+using DdConstruction.Service;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using static DdConstruction.DomainModel.Constants;
@@ -12,9 +14,16 @@ namespace DdConstruction.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly DoubleDConstructionContext context;
+        private readonly IOrderService orderService;
+        private readonly IProductService productService;
+        private readonly ServiceConfiguration serviceConfiguration;
 
-        public HomeController(DoubleDConstructionContext context) => this.context = context;
+        public HomeController(IOrderService orderService, IProductService productService, ServiceConfiguration serviceConfiguration)
+        {
+            this.orderService = orderService ?? throw new ArgumentNullException(nameof(orderService));
+            this.productService = productService ?? throw new ArgumentNullException(nameof(productService));
+            this.serviceConfiguration = serviceConfiguration ?? throw new ArgumentNullException(nameof(serviceConfiguration));
+        }
 
         public IActionResult Index()
         {
@@ -43,7 +52,7 @@ namespace DdConstruction.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckoutPost(string stripeToken, string cartTotal, string streetAddress, string city, string state, string zipCode, string cartItemInfo)
+        public IActionResult CheckoutPost(string stripeToken, string cartTotal, string customerName, string streetAddress, string city, string state, string zipCode, string cartItemInfo)
         {
             int amount = int.Parse(cartTotal);
 
@@ -55,59 +64,64 @@ namespace DdConstruction.Controllers
                 products.Add(SanitizeProductdId(item), SanitizeItemQuantity(item));
             }
 
-            // Need to save the order to our database
-            var customerOrder = new CustomerOrder { CreateDate = DateTime.UtcNow, OrderStatusId = (int)OrderStatus.PendingCharge, FulfilledDate = null };
-            context.CustomerOrder.Add(customerOrder);
+            // Validate the items equate to the cartTotal we received
+            var productEntities = productService.GetAllProducts().Where(m => products.ContainsKey(m.ProductId)).ToList();
 
-            context.SaveChanges();
-
-            var orderId = customerOrder.OrderId;
-
-            foreach (var productId in products.Keys)
+            if (!ValidCartAmount(productEntities, amount))
             {
-                var customerProductOrder = new CustomerProductOrder { ProductId = productId, OrderId = orderId, Quantity = products[productId] };
-                context.CustomerProductOrder.Add(customerProductOrder);
+                // We've got a problem
+                return RedirectToAction("PaymentFailed", new { reason = "Cart total has been corrupt" });
             }
 
-            context.SaveChanges();
+            // Need to save the order to our database
+            var customerOrder = new CustomerOrder { CreateDate = DateTime.UtcNow, OrderStatusId = (int)OrderStatus.PendingCharge, FulfilledDate = null };
+            var shippingModel = new ShippingModel { Name = customerName, Address = streetAddress, City = city, State = state, ZipCode = zipCode };
+
+            var orderId = orderService.SaveCustomerOrder(customerOrder, products, shippingModel);
+
+            var metaData = new Dictionary<string, string>
+            {
+                { "OrderId", orderId.ToString() }
+            };
 
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
-            StripeConfiguration.SetApiKey("sk_test_47M1I8EA24tScfkSjYCC7Lj0");
+            StripeConfiguration.SetApiKey(serviceConfiguration.StripeSecretKey);
 
             var options = new StripeChargeCreateOptions
             {
                 Amount = amount,
                 Currency = "usd",
                 Description = "Example charge",
-                SourceTokenOrExistingSourceId = stripeToken
+                SourceTokenOrExistingSourceId = stripeToken,
+                Metadata = metaData
             };
             var service = new StripeChargeService();
             StripeCharge charge = service.Create(options);
 
-            TempData.Put("chare", charge);
-
             if (charge.Outcome.Type != "authorized")
             {
                 // something went wrong, payment failed
-                return RedirectToAction("PaymentFailed");
+                return RedirectToAction("PaymentFailed", new { reason = "Credit card is invalid" });
             }
 
-            return RedirectToAction("PaymentSuccess");
+            customerOrder.StripePaymentId = charge.Id;
+            customerOrder.OrderStatusId = (int)OrderStatus.PendingFulfill;
+            orderService.UpdateCustomerOrder(customerOrder);
+
+            return RedirectToAction("PaymentSuccess", new { orderId });
         }
 
         // Requires StripeCharge from TempData
-        public IActionResult PaymentSuccess()
+        public IActionResult PaymentSuccess(string orderId)
         {
-            var charge = TempData.Get<StripeCharge>("charge");
-            return View(new PaymentSuccessViewModel { Charge = charge });
+            return View(new PaymentSuccessViewModel { OrderId = orderId });
         }
 
         // Requires StripeCharge from TempData
-        public IActionResult PaymentFailed()
+        public IActionResult PaymentFailed(string reason)
         {
-            var charge = (StripeCharge)TempData["charge"];
-            return View(new PaymentFailedViewModel());
+            return View(new PaymentFailedViewModel { Reason = reason });
         }
 
         public IActionResult Error()
@@ -127,6 +141,18 @@ namespace DdConstruction.Controllers
             var quantity = Regex.Replace(item, "[^0-9~]", "");
 
             return int.Parse(quantity.Substring(2, 1));
+        }
+
+        private bool ValidCartAmount(List<Product> productEntities, int amount)
+        {
+            var productEntityTotal = 0;
+
+            foreach (var productEntity in productEntities)
+            {
+                productEntityTotal += (int)(productEntity.Price * 100);
+            }
+
+            return productEntityTotal == amount;
         }
     }
 }

@@ -67,5 +67,6 @@
     <Build Include="dbo\Tables\CustomerOrder.sql" />
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\CustomerProductOrder.sql" />
+    <Build Include="dbo\Tables\CustomerOrderShipping.sql" />
   </ItemGroup>
 </Project>

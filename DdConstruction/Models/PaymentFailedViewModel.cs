@@ -5,5 +5,7 @@
         private static readonly string angularApplicationName = "angularApp";
 
         public PaymentFailedViewModel() : base(angularApplicationName) { }
+
+        public string Reason { get; set; }
     }
 }

@@ -5,7 +5,8 @@ var DdConstruction;
     var siteRoot = '/';
     var paths = {
         AppBase: siteRoot + "AppBase/",
-        AddToCartDirectory: siteRoot + "template/ngCart/addtocart.html"
+        AddToCartDirectory: siteRoot + "template/ngCart/addtocart.html",
+        ImagesDirectory: siteRoot + "Images/"
     };
     siteConstants.constant('paths', paths);
 })(DdConstruction || (DdConstruction = {}));

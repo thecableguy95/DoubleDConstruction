@@ -1,9 +1,9 @@
 ﻿<div data-ng-if="!$ctrl.IsCartEmpty()">
     <form name="shippingInformation">
         <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <label for="customerName" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-4">
-                <input name="name" class="form-control" type="text" id="name" data-ng-model="$ctrl.name" required>
+                <input name="customerName" class="form-control" type="text" id="customerName" data-ng-model="$ctrl.customerName" required>
             </div>
         </div>
 
@@ -36,10 +36,11 @@
         </div>
     </form>
 
-    <div data-ng-if="shippingInformation.$valid">
+    <div data-ng-show="shippingInformation.$valid">
         <form name="checkoutForm" action="CheckoutPost" method="POST">
 
             <input type="hidden" name="cartTotal" value="{{$ctrl.GetCartTotal()}}" />
+            <input type="hidden" name="customerName" value="{{$ctrl.customerName}}" />
             <input type="hidden" name="streetAddress" value="{{$ctrl.streetAddress}}" />
             <input type="hidden" name="city" value="{{$ctrl.city}}" />
             <input type="hidden" name="state" value="{{$ctrl.state}}" />

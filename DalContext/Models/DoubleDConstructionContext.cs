@@ -16,6 +16,7 @@ namespace DdConstruction
         }
 
         public virtual DbSet<CustomerOrder> CustomerOrder { get; set; }
+        public virtual DbSet<CustomerOrderShipping> CustomerOrderShipping { get; set; }
         public virtual DbSet<CustomerProductOrder> CustomerProductOrder { get; set; }
         public virtual DbSet<MdOrderStatus> MdOrderStatus { get; set; }
         public virtual DbSet<Product> Product { get; set; }
@@ -39,30 +40,64 @@ namespace DdConstruction
 
                 entity.Property(e => e.FulfilledDate).HasColumnType("datetime");
 
+                entity.Property(e => e.StripePaymentId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.OrderStatus)
                     .WithMany(p => p.CustomerOrder)
                     .HasForeignKey(d => d.OrderStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderStatus_OrderStatusId");
+                    .HasConstraintName("FK_CustomerOrder_OrderStatusId");
+            });
+
+            modelBuilder.Entity<CustomerOrderShipping>(entity =>
+            {
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.City)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ZipCode)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.CustomerOrderShipping)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CustomerOrderShipping_OrderId");
             });
 
             modelBuilder.Entity<CustomerProductOrder>(entity =>
             {
-                entity.HasKey(e => e.CustomerProductOrder1);
-
-                entity.Property(e => e.CustomerProductOrder1).HasColumnName("CustomerProductOrder");
-
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.CustomerProductOrder)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Order_OrderId");
+                    .HasConstraintName("FK_CustomerProductOrder_OrderId");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.CustomerProductOrder)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Product_ProductId");
+                    .HasConstraintName("FK_CustomerProductOrder_ProductId");
             });
 
             modelBuilder.Entity<MdOrderStatus>(entity =>
@@ -82,6 +117,10 @@ namespace DdConstruction
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.OnSale)
+                    .IsRequired()
+                    .HasDefaultValueSql("('False')");
 
                 entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             });

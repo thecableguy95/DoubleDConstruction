@@ -168,6 +168,7 @@ var DdConstruction;
                     this.orderId = data["orderId"] !== undefined ? data["orderId"] : null;
                     this.createDate = data["createDate"] ? new Date(data["createDate"].toString()) : null;
                     this.orderStatusId = data["orderStatusId"] !== undefined ? data["orderStatusId"] : null;
+                    this.stripePaymentId = data["stripePaymentId"] !== undefined ? data["stripePaymentId"] : null;
                     this.fulfilledDate = data["fulfilledDate"] ? new Date(data["fulfilledDate"].toString()) : null;
                     this.orderStatus = data["orderStatus"] ? MdOrderStatus.fromJS(data["orderStatus"]) : null;
                     if (data["customerProductOrder"] && data["customerProductOrder"].constructor === Array) {
@@ -189,6 +190,7 @@ var DdConstruction;
                 data["orderId"] = this.orderId !== undefined ? this.orderId : null;
                 data["createDate"] = this.createDate ? this.createDate.toISOString() : null;
                 data["orderStatusId"] = this.orderStatusId !== undefined ? this.orderStatusId : null;
+                data["stripePaymentId"] = this.stripePaymentId !== undefined ? this.stripePaymentId : null;
                 data["fulfilledDate"] = this.fulfilledDate ? this.fulfilledDate.toISOString() : null;
                 data["orderStatus"] = this.orderStatus ? this.orderStatus.toJSON() : null;
                 if (this.customerProductOrder && this.customerProductOrder.constructor === Array) {
@@ -361,16 +363,28 @@ var DdConstruction;
         controller: 'ProductCatalogController'
     };
     var ProductCatalogController = /** @class */ (function () {
-        function ProductCatalogController(ddConstructionClient) {
+        function ProductCatalogController(ddConstructionClient, paths) {
             var _this = this;
             this.$onInit = function () {
                 _this.load = _this.ddConstructionClient.getAllProducts().then(function (products) {
                     _this.catalogItems = products;
                 });
             };
+            this.GetProductImage = function (description) {
+                var imageUrl = _this.paths.ImagesDirectory + description + ".jpg";
+                var xyz = _this.ImageExists(imageUrl);
+                return imageUrl;
+            };
+            this.ImageExists = function (imagePath) {
+                var http = new XMLHttpRequest();
+                http.open('HEAD', imagePath, false);
+                http.send();
+                return http.status != 404;
+            };
             this.ddConstructionClient = ddConstructionClient;
+            this.paths = paths;
         }
-        ProductCatalogController.$inject = ['DdConstructionClient'];
+        ProductCatalogController.$inject = ['DdConstructionClient', 'paths'];
         return ProductCatalogController;
     }());
     angular.module('angularApp')
