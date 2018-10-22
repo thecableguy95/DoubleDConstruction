@@ -16,14 +16,7 @@ var DdConstruction;
             };
             this.GetProductImage = function (description) {
                 var imageUrl = _this.paths.ImagesDirectory + description + ".jpg";
-                var xyz = _this.ImageExists(imageUrl);
                 return imageUrl;
-            };
-            this.ImageExists = function (imagePath) {
-                var http = new XMLHttpRequest();
-                http.open('HEAD', imagePath, false);
-                http.send();
-                return http.status != 404;
             };
             this.ddConstructionClient = ddConstructionClient;
             this.paths = paths;

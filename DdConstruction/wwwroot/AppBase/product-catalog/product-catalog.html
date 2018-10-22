@@ -3,7 +3,7 @@
         <div data-ng-repeat="product in $ctrl.catalogItems">
             <div class="col-lg-4 col-sm-6" style="margin-bottom:20px;">
                 <!--<img src="https://via.placeholder.com/300x200">-->
-                <img src="{{$ctrl.GetProductImage(product.description)}}" style="width:300px;height:200px;">
+                <img data-ng-src="{{$ctrl.GetProductImage(product.description)}}" style="width:300px;height:200px;">
                 <p>{{product.description}} - {{product.price | currency}}</p>
                 <ngcart-addtocart id="{{product.productId}}" name="{{product.description}}" price="{{product.price}}" quantity="1" quantity-max="5">Add to Cart</ngcart-addtocart>
             </div>

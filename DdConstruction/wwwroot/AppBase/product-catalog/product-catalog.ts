@@ -40,17 +40,7 @@
 
         public GetProductImage = (description: string): string => {
             let imageUrl = this.paths.ImagesDirectory + description + ".jpg";
-            let xyz = this.ImageExists(imageUrl);
             return imageUrl;
-        }
-
-        private ImageExists = (imagePath: string): boolean => {
-            var http = new XMLHttpRequest();
-
-            http.open('HEAD', imagePath, false);
-            http.send();
-
-            return http.status != 404;
         }
     }
 

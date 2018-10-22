@@ -1,6 +1,12 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 80px;
     padding-bottom: 20px;
+}
+
+.main-header {
+    height:200px;
+    width:100%;
+    background: linear-gradient( rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 1.0)), url("../images/carpenter.jpg")
 }
 
 /* Wrapping element */
@@ -36,4 +42,16 @@
 
 input.ng-invalid {
     border: 1px solid red;
+}
+
+.navbar-fixed-top {
+    min-height: 70px;
+}
+
+.navbar-collapse {
+    margin-top:30px;
+}
+
+.navbar-collapse ul {
+    font-size:23px;
 }
