@@ -46,6 +46,8 @@
             <input type="hidden" name="state" value="{{$ctrl.state}}" />
             <input type="hidden" name="zipCode" value="{{$ctrl.zipCode}}" />
             <input type="hidden" name="cartItemInfo" value="{{$ctrl.GetCartItemInfo()}}" />
+            <input type="hidden" name="cartTax" value="{{$ctrl.GetCartTax()}}" />
+            <input type="hidden" name="cartShipping" value="{{$ctrl.GetCartShipping()}}" />
 
             <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                     data-key="pk_test_YArjCbIuqCA8CPSt5NyUJprp"

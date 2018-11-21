@@ -29,6 +29,12 @@ var DdConstruction;
             this.IsCartEmpty = function () {
                 return _this.ngCart.getTotalItems() === 0;
             };
+            this.GetCartTax = function () {
+                return _this.ngCart.getTax();
+            };
+            this.GetCartShipping = function () {
+                return _this.ngCart.getShipping();
+            };
             this.http = $http;
             this.ngCart = ngCart;
         }

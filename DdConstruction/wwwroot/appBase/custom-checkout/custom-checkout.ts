@@ -17,6 +17,8 @@
         GetCartTotal(): string;
         IsCartEmpty(): boolean;
         GetCartItemInfo(): string[];
+        GetCartTax(): string;
+        GetCartShipping(): string;
     }
 
     class CustomCheckoutController implements ICustomCheckoutController {
@@ -64,6 +66,14 @@
 
         public IsCartEmpty = (): boolean => {
             return this.ngCart.getTotalItems() === 0;
+        }
+
+        public GetCartTax = (): string => {
+            return this.ngCart.getTax();
+        }
+
+        public GetCartShipping = (): string => {
+            return this.ngCart.getShipping();
         }
     }
 

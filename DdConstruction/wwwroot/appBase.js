@@ -86,6 +86,8 @@ var DdConstruction;
                     this.productId = data["productId"] !== undefined ? data["productId"] : null;
                     this.price = data["price"] !== undefined ? data["price"] : null;
                     this.description = data["description"] !== undefined ? data["description"] : null;
+                    this.altDescription = data["altDescription"] !== undefined ? data["altDescription"] : null;
+                    this.onSale = data["onSale"] !== undefined ? data["onSale"] : null;
                     if (data["customerProductOrder"] && data["customerProductOrder"].constructor === Array) {
                         this.customerProductOrder = [];
                         for (var _i = 0, _a = data["customerProductOrder"]; _i < _a.length; _i++) {
@@ -105,6 +107,8 @@ var DdConstruction;
                 data["productId"] = this.productId !== undefined ? this.productId : null;
                 data["price"] = this.price !== undefined ? this.price : null;
                 data["description"] = this.description !== undefined ? this.description : null;
+                data["altDescription"] = this.altDescription !== undefined ? this.altDescription : null;
+                data["onSale"] = this.onSale !== undefined ? this.onSale : null;
                 if (this.customerProductOrder && this.customerProductOrder.constructor === Array) {
                     data["customerProductOrder"] = [];
                     for (var _i = 0, _a = this.customerProductOrder; _i < _a.length; _i++) {
@@ -128,7 +132,7 @@ var DdConstruction;
             }
             CustomerProductOrder.prototype.init = function (data) {
                 if (data) {
-                    this.customerProductOrder1 = data["customerProductOrder1"] !== undefined ? data["customerProductOrder1"] : null;
+                    this.customerProductOrderId = data["customerProductOrderId"] !== undefined ? data["customerProductOrderId"] : null;
                     this.productId = data["productId"] !== undefined ? data["productId"] : null;
                     this.quantity = data["quantity"] !== undefined ? data["quantity"] : null;
                     this.orderId = data["orderId"] !== undefined ? data["orderId"] : null;
@@ -143,7 +147,7 @@ var DdConstruction;
             };
             CustomerProductOrder.prototype.toJSON = function (data) {
                 data = typeof data === 'object' ? data : {};
-                data["customerProductOrder1"] = this.customerProductOrder1 !== undefined ? this.customerProductOrder1 : null;
+                data["customerProductOrderId"] = this.customerProductOrderId !== undefined ? this.customerProductOrderId : null;
                 data["productId"] = this.productId !== undefined ? this.productId : null;
                 data["quantity"] = this.quantity !== undefined ? this.quantity : null;
                 data["orderId"] = this.orderId !== undefined ? this.orderId : null;
@@ -171,10 +175,17 @@ var DdConstruction;
                     this.stripePaymentId = data["stripePaymentId"] !== undefined ? data["stripePaymentId"] : null;
                     this.fulfilledDate = data["fulfilledDate"] ? new Date(data["fulfilledDate"].toString()) : null;
                     this.orderStatus = data["orderStatus"] ? MdOrderStatus.fromJS(data["orderStatus"]) : null;
+                    if (data["customerOrderShipping"] && data["customerOrderShipping"].constructor === Array) {
+                        this.customerOrderShipping = [];
+                        for (var _i = 0, _a = data["customerOrderShipping"]; _i < _a.length; _i++) {
+                            var item = _a[_i];
+                            this.customerOrderShipping.push(CustomerOrderShipping.fromJS(item));
+                        }
+                    }
                     if (data["customerProductOrder"] && data["customerProductOrder"].constructor === Array) {
                         this.customerProductOrder = [];
-                        for (var _i = 0, _a = data["customerProductOrder"]; _i < _a.length; _i++) {
-                            var item = _a[_i];
+                        for (var _b = 0, _c = data["customerProductOrder"]; _b < _c.length; _b++) {
+                            var item = _c[_b];
                             this.customerProductOrder.push(CustomerProductOrder.fromJS(item));
                         }
                     }
@@ -193,10 +204,17 @@ var DdConstruction;
                 data["stripePaymentId"] = this.stripePaymentId !== undefined ? this.stripePaymentId : null;
                 data["fulfilledDate"] = this.fulfilledDate ? this.fulfilledDate.toISOString() : null;
                 data["orderStatus"] = this.orderStatus ? this.orderStatus.toJSON() : null;
+                if (this.customerOrderShipping && this.customerOrderShipping.constructor === Array) {
+                    data["customerOrderShipping"] = [];
+                    for (var _i = 0, _a = this.customerOrderShipping; _i < _a.length; _i++) {
+                        var item = _a[_i];
+                        data["customerOrderShipping"].push(item.toJSON());
+                    }
+                }
                 if (this.customerProductOrder && this.customerProductOrder.constructor === Array) {
                     data["customerProductOrder"] = [];
-                    for (var _i = 0, _a = this.customerProductOrder; _i < _a.length; _i++) {
-                        var item = _a[_i];
+                    for (var _b = 0, _c = this.customerProductOrder; _b < _c.length; _b++) {
+                        var item = _c[_b];
                         data["customerProductOrder"].push(item.toJSON());
                     }
                 }
@@ -248,6 +266,47 @@ var DdConstruction;
             return MdOrderStatus;
         }());
         Client.MdOrderStatus = MdOrderStatus;
+        var CustomerOrderShipping = /** @class */ (function () {
+            function CustomerOrderShipping(data) {
+                if (data) {
+                    for (var property in data) {
+                        if (data.hasOwnProperty(property))
+                            this[property] = data[property];
+                    }
+                }
+            }
+            CustomerOrderShipping.prototype.init = function (data) {
+                if (data) {
+                    this.customerOrderShippingId = data["customerOrderShippingId"] !== undefined ? data["customerOrderShippingId"] : null;
+                    this.name = data["name"] !== undefined ? data["name"] : null;
+                    this.address = data["address"] !== undefined ? data["address"] : null;
+                    this.city = data["city"] !== undefined ? data["city"] : null;
+                    this.state = data["state"] !== undefined ? data["state"] : null;
+                    this.zipCode = data["zipCode"] !== undefined ? data["zipCode"] : null;
+                    this.orderId = data["orderId"] !== undefined ? data["orderId"] : null;
+                    this.order = data["order"] ? CustomerOrder.fromJS(data["order"]) : null;
+                }
+            };
+            CustomerOrderShipping.fromJS = function (data) {
+                var result = new CustomerOrderShipping();
+                result.init(data);
+                return result;
+            };
+            CustomerOrderShipping.prototype.toJSON = function (data) {
+                data = typeof data === 'object' ? data : {};
+                data["customerOrderShippingId"] = this.customerOrderShippingId !== undefined ? this.customerOrderShippingId : null;
+                data["name"] = this.name !== undefined ? this.name : null;
+                data["address"] = this.address !== undefined ? this.address : null;
+                data["city"] = this.city !== undefined ? this.city : null;
+                data["state"] = this.state !== undefined ? this.state : null;
+                data["zipCode"] = this.zipCode !== undefined ? this.zipCode : null;
+                data["orderId"] = this.orderId !== undefined ? this.orderId : null;
+                data["order"] = this.order ? this.order.toJSON() : null;
+                return data;
+            };
+            return CustomerOrderShipping;
+        }());
+        Client.CustomerOrderShipping = CustomerOrderShipping;
         var SwaggerException = /** @class */ (function (_super) {
             __extends(SwaggerException, _super);
             function SwaggerException(message, status, response, result) {
@@ -342,6 +401,12 @@ var DdConstruction;
             };
             this.IsCartEmpty = function () {
                 return _this.ngCart.getTotalItems() === 0;
+            };
+            this.GetCartTax = function () {
+                return _this.ngCart.getTax();
+            };
+            this.GetCartShipping = function () {
+                return _this.ngCart.getShipping();
             };
             this.http = $http;
             this.ngCart = ngCart;

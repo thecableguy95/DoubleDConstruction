@@ -8,7 +8,27 @@
     background: linear-gradient( rgba(255, 255, 255, 0.00), rgba(255, 255, 255, 0.80)), url("../images/carpenter.jpg");
     background-size:cover;
     margin-top:-10px;
+}
 
+@media screen and (min-width: 992px) {
+    .main-header {
+        margin-left: -40px;
+        margin-right: -40px;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .main-header {
+        margin-left: -50px;
+        margin-right: -50px;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .main-header {
+        margin-left: -100px;
+        margin-right: -100px;
+    }
 }
 
 .main-header .content {

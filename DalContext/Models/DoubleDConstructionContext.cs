@@ -113,6 +113,10 @@ namespace DdConstruction
 
             modelBuilder.Entity<Product>(entity =>
             {
+                entity.Property(e => e.AltDescription)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(50)

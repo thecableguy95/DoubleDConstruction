@@ -72,6 +72,8 @@ export class Product implements IProduct {
     productId: number;
     price: number;
     description?: string | null;
+    altDescription?: string | null;
+    onSale?: boolean | null;
     customerProductOrder?: CustomerProductOrder[] | null;
 
     constructor(data?: IProduct) {
@@ -88,6 +90,8 @@ export class Product implements IProduct {
             this.productId = data["productId"] !== undefined ? data["productId"] : <any>null;
             this.price = data["price"] !== undefined ? data["price"] : <any>null;
             this.description = data["description"] !== undefined ? data["description"] : <any>null;
+            this.altDescription = data["altDescription"] !== undefined ? data["altDescription"] : <any>null;
+            this.onSale = data["onSale"] !== undefined ? data["onSale"] : <any>null;
             if (data["customerProductOrder"] && data["customerProductOrder"].constructor === Array) {
                 this.customerProductOrder = [];
                 for (let item of data["customerProductOrder"])
@@ -107,6 +111,8 @@ export class Product implements IProduct {
         data["productId"] = this.productId !== undefined ? this.productId : <any>null;
         data["price"] = this.price !== undefined ? this.price : <any>null;
         data["description"] = this.description !== undefined ? this.description : <any>null;
+        data["altDescription"] = this.altDescription !== undefined ? this.altDescription : <any>null;
+        data["onSale"] = this.onSale !== undefined ? this.onSale : <any>null;
         if (this.customerProductOrder && this.customerProductOrder.constructor === Array) {
             data["customerProductOrder"] = [];
             for (let item of this.customerProductOrder)
@@ -120,11 +126,13 @@ export interface IProduct {
     productId: number;
     price: number;
     description?: string | null;
+    altDescription?: string | null;
+    onSale?: boolean | null;
     customerProductOrder?: CustomerProductOrder[] | null;
 }
 
 export class CustomerProductOrder implements ICustomerProductOrder {
-    customerProductOrder1: number;
+    customerProductOrderId: number;
     productId: number;
     quantity: number;
     orderId: number;
@@ -142,7 +150,7 @@ export class CustomerProductOrder implements ICustomerProductOrder {
 
     init(data?: any) {
         if (data) {
-            this.customerProductOrder1 = data["customerProductOrder1"] !== undefined ? data["customerProductOrder1"] : <any>null;
+            this.customerProductOrderId = data["customerProductOrderId"] !== undefined ? data["customerProductOrderId"] : <any>null;
             this.productId = data["productId"] !== undefined ? data["productId"] : <any>null;
             this.quantity = data["quantity"] !== undefined ? data["quantity"] : <any>null;
             this.orderId = data["orderId"] !== undefined ? data["orderId"] : <any>null;
@@ -159,7 +167,7 @@ export class CustomerProductOrder implements ICustomerProductOrder {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["customerProductOrder1"] = this.customerProductOrder1 !== undefined ? this.customerProductOrder1 : <any>null;
+        data["customerProductOrderId"] = this.customerProductOrderId !== undefined ? this.customerProductOrderId : <any>null;
         data["productId"] = this.productId !== undefined ? this.productId : <any>null;
         data["quantity"] = this.quantity !== undefined ? this.quantity : <any>null;
         data["orderId"] = this.orderId !== undefined ? this.orderId : <any>null;
@@ -170,7 +178,7 @@ export class CustomerProductOrder implements ICustomerProductOrder {
 }
 
 export interface ICustomerProductOrder {
-    customerProductOrder1: number;
+    customerProductOrderId: number;
     productId: number;
     quantity: number;
     orderId: number;
@@ -185,6 +193,7 @@ export class CustomerOrder implements ICustomerOrder {
     stripePaymentId?: string | null;
     fulfilledDate?: Date | null;
     orderStatus?: MdOrderStatus | null;
+    customerOrderShipping?: CustomerOrderShipping[] | null;
     customerProductOrder?: CustomerProductOrder[] | null;
 
     constructor(data?: ICustomerOrder) {
@@ -204,6 +213,11 @@ export class CustomerOrder implements ICustomerOrder {
             this.stripePaymentId = data["stripePaymentId"] !== undefined ? data["stripePaymentId"] : <any>null;
             this.fulfilledDate = data["fulfilledDate"] ? new Date(data["fulfilledDate"].toString()) : <any>null;
             this.orderStatus = data["orderStatus"] ? MdOrderStatus.fromJS(data["orderStatus"]) : <any>null;
+            if (data["customerOrderShipping"] && data["customerOrderShipping"].constructor === Array) {
+                this.customerOrderShipping = [];
+                for (let item of data["customerOrderShipping"])
+                    this.customerOrderShipping.push(CustomerOrderShipping.fromJS(item));
+            }
             if (data["customerProductOrder"] && data["customerProductOrder"].constructor === Array) {
                 this.customerProductOrder = [];
                 for (let item of data["customerProductOrder"])
@@ -226,6 +240,11 @@ export class CustomerOrder implements ICustomerOrder {
         data["stripePaymentId"] = this.stripePaymentId !== undefined ? this.stripePaymentId : <any>null;
         data["fulfilledDate"] = this.fulfilledDate ? this.fulfilledDate.toISOString() : <any>null;
         data["orderStatus"] = this.orderStatus ? this.orderStatus.toJSON() : <any>null;
+        if (this.customerOrderShipping && this.customerOrderShipping.constructor === Array) {
+            data["customerOrderShipping"] = [];
+            for (let item of this.customerOrderShipping)
+                data["customerOrderShipping"].push(item.toJSON());
+        }
         if (this.customerProductOrder && this.customerProductOrder.constructor === Array) {
             data["customerProductOrder"] = [];
             for (let item of this.customerProductOrder)
@@ -242,6 +261,7 @@ export interface ICustomerOrder {
     stripePaymentId?: string | null;
     fulfilledDate?: Date | null;
     orderStatus?: MdOrderStatus | null;
+    customerOrderShipping?: CustomerOrderShipping[] | null;
     customerProductOrder?: CustomerProductOrder[] | null;
 }
 
@@ -294,6 +314,69 @@ export interface IMdOrderStatus {
     orderStatusId: number;
     description?: string | null;
     customerOrder?: CustomerOrder[] | null;
+}
+
+export class CustomerOrderShipping implements ICustomerOrderShipping {
+    customerOrderShippingId: number;
+    name?: string | null;
+    address?: string | null;
+    city?: string | null;
+    state?: string | null;
+    zipCode?: string | null;
+    orderId: number;
+    order?: CustomerOrder | null;
+
+    constructor(data?: ICustomerOrderShipping) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.customerOrderShippingId = data["customerOrderShippingId"] !== undefined ? data["customerOrderShippingId"] : <any>null;
+            this.name = data["name"] !== undefined ? data["name"] : <any>null;
+            this.address = data["address"] !== undefined ? data["address"] : <any>null;
+            this.city = data["city"] !== undefined ? data["city"] : <any>null;
+            this.state = data["state"] !== undefined ? data["state"] : <any>null;
+            this.zipCode = data["zipCode"] !== undefined ? data["zipCode"] : <any>null;
+            this.orderId = data["orderId"] !== undefined ? data["orderId"] : <any>null;
+            this.order = data["order"] ? CustomerOrder.fromJS(data["order"]) : <any>null;
+        }
+    }
+
+    static fromJS(data: any): CustomerOrderShipping {
+        let result = new CustomerOrderShipping();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerOrderShippingId"] = this.customerOrderShippingId !== undefined ? this.customerOrderShippingId : <any>null;
+        data["name"] = this.name !== undefined ? this.name : <any>null;
+        data["address"] = this.address !== undefined ? this.address : <any>null;
+        data["city"] = this.city !== undefined ? this.city : <any>null;
+        data["state"] = this.state !== undefined ? this.state : <any>null;
+        data["zipCode"] = this.zipCode !== undefined ? this.zipCode : <any>null;
+        data["orderId"] = this.orderId !== undefined ? this.orderId : <any>null;
+        data["order"] = this.order ? this.order.toJSON() : <any>null;
+        return data; 
+    }
+}
+
+export interface ICustomerOrderShipping {
+    customerOrderShippingId: number;
+    name?: string | null;
+    address?: string | null;
+    city?: string | null;
+    state?: string | null;
+    zipCode?: string | null;
+    orderId: number;
+    order?: CustomerOrder | null;
 }
 
 export class SwaggerException extends Error {

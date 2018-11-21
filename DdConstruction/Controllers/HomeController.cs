@@ -52,7 +52,7 @@ namespace DdConstruction.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckoutPost(string stripeToken, string cartTotal, string customerName, string streetAddress, string city, string state, string zipCode, string cartItemInfo)
+        public IActionResult CheckoutPost(string stripeToken, string cartTotal, string customerName, string streetAddress, string city, string state, string zipCode, string cartItemInfo, string cartTax, string cartShipping)
         {
             int amount = int.Parse(cartTotal);
 
@@ -67,7 +67,7 @@ namespace DdConstruction.Controllers
             // Validate the items equate to the cartTotal we received
             var productEntities = productService.GetAllProducts().Where(m => products.ContainsKey(m.ProductId)).ToList();
 
-            if (!ValidCartAmount(productEntities, amount))
+            if (!ValidCartAmount(productEntities, amount, cartTax, cartShipping))
             {
                 // We've got a problem
                 return RedirectToAction("PaymentFailed", new { reason = "Cart total has been corrupt" });
@@ -143,16 +143,19 @@ namespace DdConstruction.Controllers
             return int.Parse(quantity.Substring(2, 1));
         }
 
-        private bool ValidCartAmount(List<Product> productEntities, int amount)
+        private bool ValidCartAmount(List<Product> productEntities, int amount, string cartTax, string cartShipping)
         {
-            var productEntityTotal = 0;
+            var productEntityTotal = 0m;
 
             foreach (var productEntity in productEntities)
             {
-                productEntityTotal += (int)(productEntity.Price * 100);
+                productEntityTotal += (productEntity.Price);
             }
 
-            return productEntityTotal == amount;
+            productEntityTotal += decimal.Parse(cartTax);
+            productEntityTotal += decimal.Parse(cartShipping);
+
+            return (int)(productEntityTotal * 100) == amount;
         }
     }
 }
